@@ -12,14 +12,14 @@
 
 # 使用方法
 
-* 直接開啟Google Spreadsheet [股票觀查_熱鍵分享板](https://docs.google.com/spreadsheets/d/1K0OgjeL3uMZZ7JvbjE-MbkbKldgjjPEt9DYyzuuuelU/edit?usp=sharing)的分享檔案
+* 直接開啟Google Spreadsheet [股票觀察_熱鍵分享板](https://docs.google.com/spreadsheets/d/1K0OgjeL3uMZZ7JvbjE-MbkbKldgjjPEt9DYyzuuuelU/edit?usp=sharing)的分享檔案
 * 按 Ctrl + Alt+ Shift + 1 即可執行執行
 * 若無法從台灣證券交易所獲得資料，在 M1 儲存格會留下查詢的字串，M2 會顯示重新執行的熱鍵
 * 按 Ctrl + Alt + Shift + 0 再次向台灣證券交易所，索取資料
 (請注意，TWSE 有 request limit, 每 5 秒鐘 3 個 request，超過的話會被 ban 掉，請自行注意)
 
-## 建立個人的觀查檔案
+## 建立個人的觀察檔案
 
-* 直接開啟Google Spreadsheet [股票觀查_熱鍵分享板](https://docs.google.com/spreadsheets/d/1K0OgjeL3uMZZ7JvbjE-MbkbKldgjjPEt9DYyzuuuelU/edit?usp=sharing)的分享檔案
+* 直接開啟Google Spreadsheet [股票觀察_熱鍵分享板](https://docs.google.com/spreadsheets/d/1K0OgjeL3uMZZ7JvbjE-MbkbKldgjjPEt9DYyzuuuelU/edit?usp=sharing)的分享檔案
 * 點選檔案=>建立複本，即可以建立個人專屬的
 
