@@ -1,6 +1,6 @@
 function setStocksPrice() {
   var spreadsheet = SpreadsheetApp.getActive();
-  
+  spreadsheet.getRange('A3').setValue("執行中....");
 // Google SpreadSheet 
 // M1 會做為 查詢股票資料暫存使用
 // M2 為當發生無法正確取得 getStockInfo.jsp 回傳資料時，會提示重新執行的熱鍵
@@ -33,11 +33,14 @@ function setStocksPrice() {
 // obj.z 為最近的成交價
       spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].z);   
       ;   
-    }}
+    }
+    spreadsheet.getRange('A3').setValue("完成更新");
+  }
   catch(err){
 // 無法取得資料的例外處理
 // 在 M2 儲存格提示重新執行的熱鍵
     spreadsheet.getRange('M2').setValue("Ctrl + Alt + Shift + 0 to Retry");  
+    spreadsheet.getRange('A3').setValue("請重試");
   }
  
 };
@@ -46,11 +49,14 @@ function setStocksPrice() {
 function retry_setStocksPrice() {
 // 當無法取得資料來，用來再重新查詢使用的
   var spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.getRange('A3').setValue("執行中....");
+  
 // 由 M1 儲存格取得 getStockInfo.jsp 的查詢字串
   var StockQueryString=spreadsheet.getRange('M1').getValue();
+  spreadsheet.getRange('M2').setValue("重新抓取資料中....."); 
   
   try{
-    spreadsheet.getRange('M2').setValue("重新抓取資料中.....");      
+         
     var stockPriceDetail=getStockPrice(StockQueryString);
  
  // 取得的資料寫入 google spreadsheet
@@ -69,10 +75,12 @@ function retry_setStocksPrice() {
 // 重置 M1, M2 儲存格
     spreadsheet.getRange('M2').setValue('');
     spreadsheet.getRange('M1').setValue('');
+    spreadsheet.getRange('A3').setValue("完成更新");
   } 
   catch(err)
   {
     spreadsheet.getRange('M2').setValue("Ctrl + Alt + Shift + 0 to Retry"); 
+    spreadsheet.getRange('A3').setValue("請重試");
   }
 };
 
@@ -120,5 +128,3 @@ function getStockPrice(stocksID)
   var data = JSON.parse(json);
   return data.msgArray;  
 };
-
-
