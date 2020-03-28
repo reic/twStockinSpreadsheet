@@ -1,6 +1,7 @@
 # 在 Google Spreadsheet 中擷取台灣股市上市/上櫃股票價格
 
 在  Google SPreadsheet，透過巨集熱鍵，擷取台灣證券交易所之股價資料
+
 參考 Asoul/tsrtc 在台灣股票即時爬蟲 Taiwan Stock Exchange Real Time Crawler 撰寫的 getStockInfo.jsp 的分析資料
 
 ## 參考資料
