@@ -10,6 +10,10 @@
 * [Asoul/tsrtc 的證交所 API Document （偽）](https://github.com/Asoul/tsrtc)
 * [Google 參考文件](https://developers.google.com/apps-script/reference/spreadsheet)
 
+## 影片教學
+
+* [Google試算表整理台股投資 | 透過 Javascript 程式，讓 google 試算表自動更新股票價格，掌握個人投資現況](https://youtu.be/VlPjjLtXzY0)
+
 ## 使用方法
 
 * 直接開啟Google Spreadsheet [股票觀察_熱鍵分享板](https://docs.google.com/spreadsheets/d/1K0OgjeL3uMZZ7JvbjE-MbkbKldgjjPEt9DYyzuuuelU/edit?usp=sharing)的分享檔案
