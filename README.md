@@ -72,10 +72,17 @@ function setStocksPrice() {
         j++; 
       }
 // obj.z 為最近的成交價 obj.y 昨日收盤價
-      if (stockPriceDetail[i].z ="-")
+// obj.y 昨日收盤價
+// obj.b 買入 5 檔，取最高的買入價
+      if (stockPriceDetail[i].z =="-")
       {
-        spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].y);   
-      }else
+        if(spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].b =="-"))
+        {
+             spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].y);
+        }else{
+             spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].b.split("_",1));  
+        }
+      } else
       {
         spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].z);   
       }  
@@ -106,13 +113,20 @@ function retry_setStocksPrice() {
         j++; 
       }
 // obj.z 為最近的成交價 obj.y 昨日收盤價
-      if (stockPriceDetail[i].z ="-")
+// obj.y 昨日收盤價
+// obj.b 買入 5 檔，取最高的買入價
+      if (stockPriceDetail[i].z =="-")
       {
-        spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].y);   
-      }else
+        if(spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].b =="-"))
+        {
+             spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].y);
+        }else{
+             spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].b.split("_",1));  
+        }
+      } else
       {
         spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].z);   
-      }   
+      }  
       
     }
     spreadsheet.getRange('M2').setValue("");
