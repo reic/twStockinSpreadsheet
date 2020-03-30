@@ -67,14 +67,14 @@ function setStocksPrice() {
       {
         j++; 
       }
-      // obj.n 為股票的名稱   
-      // spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].n);
-      // obj.c 為股票代號
-      // spreadsheet.getCurrentCell().offset(i+j,2).setValue(stockPriceDetail[i].c);
-      
-      // obj.z 為最近的成交價
-      spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].z);   
-      ;   
+// obj.z 為最近的成交價 obj.y 昨日收盤價
+      if (stockPriceDetail[i].z ="-")
+      {
+        spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].y);   
+      }else
+      {
+        spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].z);   
+      }  
     }}
   catch(err){
     spreadsheet.getRange('M2').setValue("Ctrl + Alt + Shift + 0 to Retry");  
@@ -101,13 +101,14 @@ function retry_setStocksPrice() {
       {
         j++; 
       }
-      // obj.n 為股票的名稱   
-      // spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].n);
-      // obj.c 為股票代號
-      // spreadsheet.getCurrentCell().offset(i+j,2).setValue(stockPriceDetail[i].c);
-      
-      // obj.z 為最近的成交價
-      spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].z);   
+// obj.z 為最近的成交價 obj.y 昨日收盤價
+      if (stockPriceDetail[i].z ="-")
+      {
+        spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].y);   
+      }else
+      {
+        spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].z);   
+      }   
       
     }
     spreadsheet.getRange('M2').setValue("");
@@ -165,5 +166,6 @@ function getStockPrice(stocksID)
   return data.msgArray;   
 };
 ```
+
 
 
