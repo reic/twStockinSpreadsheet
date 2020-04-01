@@ -35,7 +35,7 @@ function setStocksPrice() {
 // obj.b 買入 5 檔，取最高的買入價
       if (stockPriceDetail[i].z =="-")
       {
-        if(spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].b =="-"))
+        if(stockPriceDetail[i].b =="-")
         {
              spreadsheet.getCurrentCell().offset(i+j,0).setValue(stockPriceDetail[i].y);
         }else{
