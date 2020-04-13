@@ -1,6 +1,6 @@
-# 在 Google Spreadsheet 中擷取台灣股市上市/上櫃股票價格
+# 測試中的 macro js
 
-在  Google SPreadsheet，擷取台灣證券交易所之股價資料
+優化 Google SPreadsheet，擷取台灣證券交易所之股價資料
 
 ## 函數說明
 
