@@ -19,9 +19,10 @@ function FastMode_construct(){
   var querystring='';
   var stockPriceDetail;
 
+  clearStocksPrice();
 //設定資訊
   [price,querystring]=preSetQuery(myarray,range,stocks,price,querystring);
-  clearStocksPrice();
+  
   
   var url = "http://mis.twse.com.tw/stock/api/getStockInfo.jsp?json=1&delay=0&ex_ch="+querystring+"&_="+Date.now();
   sheet.getRange('N1').setValue(url); 
@@ -35,50 +36,22 @@ function FastMode_construct(){
     sheet.getRange('A3').setBackground("#d9ead3").setValue("完成更新");
   }catch(err)
   {         
-    Logger.log(err);
-    sheet.getRange('A3').setBackground("#fce5cd").setValue("請重試");
-  }
+//自動重新嘗試連線一次  
+    
+// Google Utilities API    
+    Utilities.sleep(5 * 1000);
+    try{
+      stockPriceDetail=getStockPrice(url);
+      sheet.getRange('N1').setValue('');
+      setNewStockPrice(myarray,price,range,stockPriceDetail);
+      sheet.getRange('A3').setBackground("#d9ead3").setValue("完成更新");      
+    }catch(err){
+      Logger.log(err);
+      sheet.getRange('A3').setBackground("#fce5cd").setValue("請重試");
+    }   
+  } 
 }
 
-function re_Construct(){
-  var sheet = SpreadsheetApp.getActiveSheet();
-  sheet.getRange('A3').setBackground("#cfe2f3").setValue("執行中....");
-
-  var url=sheet.getRange('N1').getValue();
-  if(url.length<3){
-    sheet.getRange('A3').setBackground("#fce5cd").setValue("請點選執行");
-    return;    
-  };
-  
-// 通過指定一個特定的 Cell ，然後運用 getDataRegion (輔以 SpreadsheetApp.Dimension.ROWS 指定方向
-// 再用 getA1Notation 取得  A4:A18 的資料範圍
-  var range=sheet.getRange("a6").getDataRegion(SpreadsheetApp.Dimension.ROWS).getA1Notation();
-
-// 取得 getRange 取得 Cells 的值，為二維陣列 array[][]，即使取一欄也為  [[a4],[a5],[a6]]
-  var myarray=sheet.getRange(range.replace(/:A/,":D")).getValues();
-  
-
-// price 為股票價格矩陣
-  var price=[];
-  var stockPriceDetail;
-
-  
-  myarray.forEach(function (value){price.push([value[2]]);});
-  
-  try{  
-// 取得股票的資料
-    stockPriceDetail=getStockPrice(url);
-    sheet.getRange('N1').setValue('');    
-// 透過 function 設定變數
-    setNewStockPrice(myarray,price,range,stockPriceDetail);
-    sheet.getRange('A3').setBackground("#d9ead3").setValue("完成更新");
-  }catch(err)
-  {
-    Logger.log(err);    
-    sheet.getRange('A3').setBackground("#fce5cd").setValue("請重試");
-   
-  }
-}
   
 
 function clearStocksPrice() {
