@@ -152,8 +152,8 @@ var sheet = SpreadsheetApp.getActiveSheet();
 // ex: ["5356", "00677U", "8069", "8069", "1532", "8069"] => ["5356", "00677U", "8069", "1532"]
   var unistock=stocks.filter(function(element, index, arr){return arr.indexOf(element) == index; });
 // 建構查詢字串  
-  unistock.forEach(function(value){   
-    if(querystring.length >0) {querystring+="%7c";}
+  unistock.forEach(function(value,index){   
+    if(index==0) {querystring+="%7c";}
        querystring+="tse_"+value+".tw%7cotc_"+value+".tw";  });
 // function 只能回傳一個值，當有多值需要回傳的時候，可以透過包裝成矩陣物件的形式
 // 再透過矩陣接收變數
