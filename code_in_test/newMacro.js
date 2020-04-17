@@ -139,9 +139,12 @@ var sheet = SpreadsheetApp.getActiveSheet();
 // 股票為持有狀態，才會更新
 // myarray 用 foreach 的 function callback 方式 更新資料 myarray 每一列的資料
 // stock 代碼只取得需要更新的代碼
+// 0417 增加迴圈的效率, remove if --else , use the rule : Less Nesting, Return Early in foreach
+// 0417 判斷是否為 1，進行資料處理，返回執行下一個迴圈。 可以節省一次 else 的判斷
   myarray.forEach(function (value) {      
-    if(value[3]==1) { price.push([""]); stocks.push(value[0]);    }
-    else  { price.push([value[2]]);  }});  
+    if(value[3]==1) { price.push([""]); stocks.push(value[0]); return;}
+     price.push([value[2]]);  });  
+
 // 查詢前，先調整現價的 欄位內容
 //  目前由 clearStockPrice 取代，增加趣味性
 //  sheet.getRange(range.replace(/A/gi,"C")).setValues(price);   
@@ -152,8 +155,9 @@ var sheet = SpreadsheetApp.getActiveSheet();
 // ex: ["5356", "00677U", "8069", "8069", "1532", "8069"] => ["5356", "00677U", "8069", "1532"]
   var unistock=stocks.filter(function(element, index, arr){return arr.indexOf(element) == index; });
 // 建構查詢字串  
+// 增加 foreach( callback(value, index) , 將 querystring.length 判斷換為 index 判斷
   unistock.forEach(function(value,index){   
-    if(index==0) {querystring+="%7c";}
+    if(index!=0) {querystring+="%7c";}
        querystring+="tse_"+value+".tw%7cotc_"+value+".tw";  });
 // function 只能回傳一個值，當有多值需要回傳的時候，可以透過包裝成矩陣物件的形式
 // 再透過矩陣接收變數
@@ -175,29 +179,42 @@ function getStockPrice(url)
 function setNewStockPrice(myarray,price,range,stockPriceDetail){
 var sheet = SpreadsheetApp.getActiveSheet();  
 var updown=[];
-  for(i=0;i<myarray.length;i++)
-  {
-    if(myarray[i][3]==1){
-      for( item of stockPriceDetail)
-      {
-         if(myarray[i][0]==item.tk1.split(".",1)) 
-         {
-           if (item.z !='-') {
-			   price[i][0]=item.z; 
-			   updown.push([(item.z-item.y).toString()]);}
-           else {
-                 if(item.b !='-')  { price[i][0]=item.b.split("_",1); 
-				   updown.push([(item.b.split("_",1)-item.y).toString()]);}
-                 else{ price[i][0]=item.y; updown.push(["-"]);}
-               }       
-        }
-   }}else{
-      updown.push(['-']);
-   }
-}
-   sheet.getRange(range.replace(/A/gi,"C")).setValues(price); 
-   sheet.getRange(range.replace(/A/gi,"E")).setValues(updown); 
+  myarray.forEach(function (item, index) {
+    if (item[3] != 1) { updown.push(['-']); return; }
+    for (stock of stockPriceDetail) {
+      if (item[0] != stock.tk1.split(".", 1)) { continue; }
+      if (stock.z != '-') { price[index][0] = stock.z; updown.push([(stock.z - stock.y)]); return; }
+      if (stock.b != '-') { price[index][0] = stock.b.split("_"); updown.push([(price[index][0] - stock.y)]); return; }
+      price[index][0] = stock.y; updown.push(["-"]);
+      break;
+    }
+  })
+  sheet.getRange(range.replace(/A/gi, "C")).setValues(price);
+  sheet.getRange(range.replace(/A/gi, "E")).setValues(updown);
 };
+//   for(i=0;i<myarray.length;i++)
+//   {
+//     if(myarray[i][3]==1){
+//       for( item of stockPriceDetail)
+//       {
+//          if(myarray[i][0]==item.tk1.split(".",1)) 
+//          {
+//            if (item.z !='-') {
+// 			   price[i][0]=item.z; 
+// 			   updown.push([(item.z-item.y).toString()]);}
+//            else {
+//                  if(item.b !='-')  { price[i][0]=item.b.split("_",1); 
+// 				   updown.push([(item.b.split("_",1)-item.y).toString()]);}
+//                  else{ price[i][0]=item.y; updown.push(["-"]);}
+//                }       
+//         }
+//    }}else{
+//       updown.push(['-']);
+//    }
+// }
+//    sheet.getRange(range.replace(/A/gi,"C")).setValues(price); 
+//    sheet.getRange(range.replace(/A/gi,"E")).setValues(updown); 
+// };
 
 function NSLookup(name) {
   var api_url = 'https://dns.google.com/resolve'; // Google Pubic DNS API Url
