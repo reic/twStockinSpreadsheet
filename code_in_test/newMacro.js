@@ -177,21 +177,40 @@ function getStockPrice(url)
 
 
 function setNewStockPrice(myarray,price,range,stockPriceDetail){
-var sheet = SpreadsheetApp.getActiveSheet();  
-var updown=[];
+  var sheet = SpreadsheetApp.getActiveSheet();
+  var updown = [];
+// 透過 map 直接整理取回來的 股票資訊，若無  z 即時資訊，則取 買方 5 檔的最高價
+  var stockset = stockPriceDetail.map(function (item) { item.tk0 = item.tk0.split(".")[0]; item.z = item.z != "-" ? item.z : item.b.split("_")[0]; return { id: item.tk0, z: item.z, y: item.y } });
   myarray.forEach(function (item, index) {
     if (item[3] != 1) { updown.push(['-']); return; }
-    for (stock of stockPriceDetail) {
-      if (item[0] != stock.tk1.split(".", 1)) { continue; }
-      if (stock.z != '-') { price[index][0] = stock.z; updown.push([(stock.z - stock.y)]); return; }
-      if (stock.b != '-') { price[index][0] = stock.b.split("_"); updown.push([(price[index][0] - stock.y)]); return; }
-      price[index][0] = stock.y; updown.push(["-"]);
-      break;
-    }
+    id = item[0]; // 取到表單上的股票代碼
+// 透過 filter 找到股票的 現價、昨天
+    [{ z, y }] = stockset.filter(function (item) { return item.id == id });
+    price[index][0] = z;
+    updown.push([z - y]);
   })
   sheet.getRange(range.replace(/A/gi, "C")).setValues(price);
   sheet.getRange(range.replace(/A/gi, "E")).setValues(updown);
-};
+}
+
+
+
+//   myarray.forEach(function (item, index) {
+//     if (item[3] != 1) { updown.push(['-']); return; }
+//     for (stock of stockPriceDetail) {
+//       if (item[0] != stock.tk1.split(".", 1)) { continue; }
+//       if (stock.z != '-') { price[index][0] = stock.z; updown.push([(stock.z - stock.y)]); return; }
+//       if (stock.b != '-') { price[index][0] = stock.b.split("_"); updown.push([(price[index][0] - stock.y)]); return; }
+//       price[index][0] = stock.y; updown.push(["-"]);
+//       break;
+//     }
+//   })
+//   sheet.getRange(range.replace(/A/gi, "C")).setValues(price);
+//   sheet.getRange(range.replace(/A/gi, "E")).setValues(updown);
+// };
+
+
+
 //   for(i=0;i<myarray.length;i++)
 //   {
 //     if(myarray[i][3]==1){
