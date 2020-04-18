@@ -15,5 +15,6 @@
 
 ## 更新說明
 
+* 20200419 optimize the setNewstockPirce function 
 * 20200414 增加 NSLookup function 用來解決 mis.twse.com.tw 的 IP 解析一直不同的問題，在查詢前，再透過 replace 將 ip 取代 hostname
 * 20200413 在 FastMode_construct、re_Construct 導入 Google Utitlies sleep ，加入 5 秒自動重試
