@@ -149,6 +149,8 @@ function getStockPrice(stocksID)
   var url = "http://"+host_address+"/stock/api/getStockInfo.jsp?json=1&delay=0&ex_ch="+stocksID+"&_="+Date.now();
   var response = UrlFetchApp.fetch(url);
   var json = response.getContentText("UTF-8");
+  // 修正有時候回傳資料，第一個字元出現  "<" 的問題
+  if (json.startsWith("<")) json=json.replace(/</,'');
   var data = JSON.parse(json);
   return data.msgArray;  
 };
