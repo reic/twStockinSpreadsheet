@@ -171,6 +171,8 @@ function getStockPrice(url)
   // 連結至台灣證卷交易所的  getStockInfo.jsp 的 API ，取回查詢股票資訊的 jsop 格式資料
   var response = UrlFetchApp.fetch(url);
   var json = response.getContentText("UTF-8");
+  // 修正回傳第一個字元偶會出現 < 的問題
+  if (json.startsWith("<")) json=json.replace(/</,'');
   var data = JSON.parse(json);
   return data.msgArray;  
 };
